@@ -1,0 +1,25 @@
+---
+- name: Install Nginx and deploy HTML on EC2
+  hosts: web
+  become: true
+
+  tasks:
+    - name: Enable EPEL repo (Extra Packages for Enterprise Linux)
+      command: amazon-linux-extras enable nginx1
+
+    - name: Install Nginx
+      yum:
+        name: nginx
+        state: present
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: Copy HTML file
+      copy:
+        src: index.html
+        dest: /usr/share/nginx/html/index.html
+
