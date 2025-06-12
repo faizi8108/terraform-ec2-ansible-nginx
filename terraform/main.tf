@@ -2,7 +2,7 @@ provider "aws" {
   region = var.region
 }
 resource "aws_security_group" "web_sg" {
-  name        = "web_sg"
+  name        = "web_sg_v2"
   description = "Allow SSH and HTTP"
 
   ingress {
@@ -37,7 +37,8 @@ resource "aws_instance" "web_server" {
   instance_type = var.instance_type
   key_name      = var.key_name
 
-  security_groups = [aws_security_group.web_sg.name]
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+
 
   user_data = <<-EOF
               #!/bin/bash
